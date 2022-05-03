@@ -5,6 +5,7 @@ using core.Identity.Dto;
 using core.Identity.Entities;
 using core.Identity.Models;
 using Core.Identity.Services;
+using core.Mappers;
 using core.Validators;
 using identity.Constants;
 using identity.Constants.FieldsMaps;
@@ -30,24 +31,14 @@ public class UserService : IUserService
     public async Task<PayloadedServiceResult<LoggedInUserModel>> LogInAsync(LoggedInUserDto loggedInUserDto)
     {
         var serviceResult = new PayloadedServiceResult<LoggedInUserModel>();
-        using var cursor =
-            await _usersCollection.FindAsync(Builders<BsonDocument>.Filter.Eq(ApplicationUserFields.Email,
-                loggedInUserDto.Email), new FindOptions<BsonDocument, ApplicationUser>());
-
-        var user = await cursor.FirstOrDefaultAsync();
+        var user = await GetUserAsync(ApplicationUserFields.Email, loggedInUserDto.Email);
         if (user == null ||
             !PasswordHashAdaptor.VerifyHash(loggedInUserDto.Password, user.PasswordHash))
         {
             serviceResult.AddError("InValid Email Or Password");
             return serviceResult;
         }
-        
-        serviceResult.Payload = new LoggedInUserModel()
-        {
-            Id = user.Id,
-            Token = _tokenService.GenerateToken(user.Id)
-        };
-
+        serviceResult.Payload = user.MapApplicationUserToLoggedInUser(_tokenService.GenerateToken(user.Id));
         return serviceResult;
     }
 
@@ -80,15 +71,27 @@ public class UserService : IUserService
             DisplayName = signUpUserDto.DisplayName
         };
         await _usersCollection.InsertOneAsync(user.ToBsonDocument());
-        serviceResult.Payload = new LoggedInUserModel()
-        {
-            Id = user.Id,
-            Token = _tokenService.GenerateToken(user.Id)
-        };
+        serviceResult.Payload = user.MapApplicationUserToLoggedInUser(_tokenService.GenerateToken(user.Id));
 
         return serviceResult;
     }
+    
+    public async Task<PayloadedServiceResult<CurrentUserModel>> GetCurrentUserAsync(Guid userId)
+    {
+        var user = await GetUserAsync(CommonFields.MongoId, userId);
+        return new PayloadedServiceResult<CurrentUserModel>()
+        {
+            Payload = user.MapApplicationUserToCurrentUserModel()
+        };
+    }
 
+    private async Task<ApplicationUser> GetUserAsync<T>(string key, T value)
+    {
+        using var cursor =
+            await _usersCollection.FindAsync(Builders<BsonDocument>.Filter.Eq(key, value), new FindOptions<BsonDocument, ApplicationUser>());
+
+        return await cursor.FirstOrDefaultAsync();
+    }
     public async Task<bool> IsEmailExistsAsync(string email)
     {
         if (email.IsValidEmailAddress())

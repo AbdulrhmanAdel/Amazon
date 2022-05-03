@@ -12,10 +12,12 @@ public class CurrentUserContextService : ICurrentUserContext
     public CurrentUserContextService(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
+        var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization];
+        if (string.IsNullOrWhiteSpace(authorizationHeader.ToString())) return;
         UserId = Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(claim => claim.Type == "Id").Value);
         Enum.TryParse<UserLocale>(
             httpContextAccessor.HttpContext.Request.Headers[HeaderNames.AcceptLanguage].ToString(), out var locale);
-        
+
         Locale = locale;
     }
 

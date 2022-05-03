@@ -17,6 +17,7 @@ public class TestController : BaseV1ApiController
     [Authorize]
     public IActionResult TestAuth()
     {
+        throw new NotImplementedException();
         return Ok(_currentUserContext);
     }
 }

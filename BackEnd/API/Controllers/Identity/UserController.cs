@@ -1,6 +1,7 @@
 ﻿using core.Identity.Dto;
 using Core.Identity.Services;
 using core.Validators;
+using DefaultNamespace;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,14 @@ namespace api.Controllers.Identity;
 
 public class UserController : BaseV1ApiController
 {
+    private readonly ICurrentUserContext _currentUserContext;
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService)
+    public UserController(
+        ICurrentUserContext currentUserContext,
+        IUserService userService)
     {
+        _currentUserContext = currentUserContext;
         _userService = userService;
     }
 
@@ -28,7 +33,20 @@ public class UserController : BaseV1ApiController
 
         return InvalidRequest(result.Messages);
     }
+    [Authorize]
+    [HttpGet("GetCurrentUser")]
+    public async Task<IActionResult> GetCurrentUserAsync()
+    {
+        var result = await _userService.GetCurrentUserAsync(_currentUserContext.UserId);
 
+        if (result.Success)
+        {
+            return ItemResult(result.Payload);
+        }
+
+        return InvalidRequest(result.Messages);
+    }
+    
     [HttpPost("LogIn")]
     [AllowAnonymous]
     public async Task<IActionResult> LogInAsync([FromBody] LoggedInUserDto loggedInUserDto)

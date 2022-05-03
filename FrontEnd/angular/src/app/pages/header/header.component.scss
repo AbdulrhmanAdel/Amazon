@@ -1,0 +1,72 @@
+
+$navElementColor: white;
+$mainHeaderColor: #183153;
+$amazonHeaderColor: #131921;
+.main-header {
+  background-color: $mainHeaderColor;
+  margin-bottom: 1rem;
+}
+
+.main-nav {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.main-nav > * {
+  width: 100%;
+}
+
+.right-nav > * {
+  height: 50px;
+}
+.nav-border {
+  display: flex;
+  justify-content: space-between;
+  margin:0 4rem ;
+}
+.main-nav-item {
+  padding: 1rem 0.5rem;
+}
+
+.main-nav-item a {
+  color: $navElementColor;
+  text-decoration: none;
+  padding: 1rem 0.5rem;
+}
+
+.main-nav-item:hover {
+  color: $navElementColor;
+  border: 1px $navElementColor ridge;
+  border-radius: 3px;
+}
+
+.main-nav-item a:hover {
+  color: $navElementColor;
+  text-decoration: none;
+}
+
+
+#search {
+  margin-left: 1rem;
+}
+
+.deliver-to {
+  background-color: transparent;
+  color: $navElementColor;
+  border: none;
+}
+
+
+.logo {
+  cursor: pointer;
+}
+
+.cart-container {
+  cursor: pointer;
+}
+
+//.cart-icon {
+//  background-color: $navElementColor;
+//}

@@ -1,0 +1,43 @@
+<div class="center-form-container">
+  <form #loggingForm="ngForm" (submit)="logIn(loggingForm)">
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email"
+             name="email"
+             class="form-control"
+             id="email"
+             aria-describedby="emailHelp"
+             placeholder="Enter email"
+             required
+             ngModel
+      >
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group mt-1">
+      <label for="password">Password</label>
+      <input type="password"
+             name="password"
+             class="form-control"
+             id="password"
+             placeholder="Password"
+             ngModel
+             required
+      >
+    </div>
+    <div class="form-check mt-1">
+      <input type="checkbox"
+             class="form-check-input"
+             id="rememberPassword"
+             name="rememberPassword"
+             ngModel>
+      <label class="form-check-label" for="rememberPassword">Remember
+        Password</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+  </form>
+
+  <div class="mt-2">
+    New Customer <a href="/user/signUp">Start Here</a>
+  </div>
+</div>
+

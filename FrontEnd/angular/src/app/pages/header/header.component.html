@@ -1,0 +1,51 @@
+<header class="main-header">
+  <nav class="main-nav">
+    <div class="right-nav nav-border">
+      <div class="main-nav-item logo" routerLink='/'>
+        <img src="../../../assets/main-image.jpg" alt="Shop" height="50px">
+      </div>
+
+      <div class="main-nav-item">
+        <button class="deliver-to"><p>Deliver To</p> <h5>Egypt</h5></button>
+      </div>
+
+    </div>
+    <div>
+      <form id="searchForm">
+        <div class="form-group">
+          <label for="searchTerm" hidden></label>
+          <input type="text"
+                 id="searchTerm"
+                 name="searchTerm"
+                 class="form-control"
+                 aria-describedby="emailHelp"
+                 required
+          >
+        </div>
+      </form>
+    </div>
+    <div class="nav-border">
+      <div *ngIf="!loggedIn else userInfo" class="main-nav-item"><a href="/user/login">Login</a></div>
+      <ng-template #userInfo>
+        <div class="dropdown show">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome {{currentLoggedInUser.displayName}}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/basket">Basket</a>
+            <a class="dropdown-item" href="/orders">Your Orders</a>
+            <a class="dropdown-item" routerLink="/" (click)="logOut($event)">Log Out</a>
+          </div>
+        </div>
+      </ng-template>
+    <div class="cart-container">
+      <div class="cart-products">
+        <i ></i>
+      <i class="fa-light fa-cart-shopping"></i>
+      </div>
+    </div>
+    </div>
+  </nav>
+</header>
