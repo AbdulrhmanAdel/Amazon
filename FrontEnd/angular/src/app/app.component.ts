@@ -2,7 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "./core/account/services/user-service";
 import {Store} from "@ngrx/store";
 import {AppState} from "./core/store/app-store";
-import {delay, Subject, take, takeUntil} from "rxjs";
+import {Subject, take, takeUntil} from "rxjs";
+import {CartService} from "./core/cart/services/cart-service";
+import {LoadCartAction} from "./core/store/cart/actions";
 
 @Component({
   selector: 'app-root',
@@ -10,9 +12,11 @@ import {delay, Subject, take, takeUntil} from "rxjs";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'E-Shop';
+
   private unsubscribe = new Subject();
+
   constructor(
+    private cartService: CartService,
     private store: Store<AppState>,
     private userService: UserService) {
   }
@@ -20,9 +24,14 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log("Initialize App")
     if (this.userService.isLoggedIn()) {
-      console.log("User Logged In Already Refresh Store with his data")
       this.userService.loadCurrentUser().pipe(take(1), takeUntil(this.unsubscribe)).subscribe()
     }
+
+    this.cartService.loadCart()
+      .pipe(take(1), takeUntil(this.unsubscribe))
+      .subscribe(cart => {
+        this.store.dispatch(new LoadCartAction(cart))
+      })
   }
 
   ngOnDestroy(): void {

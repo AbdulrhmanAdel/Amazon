@@ -1,5 +1,7 @@
-﻿export class AppState {
-  cart: Card;
+﻿import {Cart} from "../cart/models/cart";
+
+export class AppState {
+  cart: Cart;
   currentUser: CurrentUser
 }
 
@@ -9,8 +11,3 @@ export class CurrentUser {
   email: string;
 }
 
-export class Card {
-  products: [];
-  ids: [];
-  totalPrice: number
-}

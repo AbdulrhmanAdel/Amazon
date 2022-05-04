@@ -4,8 +4,20 @@ body {
   margin: 0;
 }
 
-
 .center-form-container {
   width: 40%;
   margin: 1% 29% 0;
+}
+
+
+.add-to-cart-button {
+  background-color: #F7CA00;
+  text-align: center;
+  border: none;
+  border-radius: 1rem;
+  width: 100%;
+}
+
+.fa-solid {
+  color: white;
 }

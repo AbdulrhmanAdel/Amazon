@@ -1,1 +1,33 @@
-<p>shop works!</p>
+<div class="products">
+  <div
+    class="product"
+    *ngFor="let product of products"
+  >
+    <img [src]="product.imageUrl" [alt]="product.description">
+    <hr>
+    <div class="product-info">
+      <h5>{{product.title}}</h5>
+      <p>{{product.description}}</p>
+      <div class="price">
+        <span>Price: </span> <i class="fa-dollar-sign fa-solid">{{product.price}}</i>
+      </div>
+
+      <div class="quantity">
+        <span>Qty: </span>
+        <form class="add-to-cart-form" #addToCartForm="ngForm">
+          <input name="productId" hidden [value]="product.id" ngModel>
+          <select name="quantity" title="Qty" ngModel>
+            <option selected>1</option>
+            <option
+              *ngFor="let number of quantityLoopGenerator(product.quantityInStock - 1); let i = index"
+            >
+              {{i + 2}}
+            </option>
+          </select>
+        </form>
+      </div>
+      <input (click)="addToCart(product, addToCartForm, $event)"
+             class="add-to-cart-button mt-1" type="button" value="Add to Cart">
+    </div>
+  </div>
+</div>
