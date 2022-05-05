@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Core.Identity.Enums
 {
     public enum UserLocale
     {

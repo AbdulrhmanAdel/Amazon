@@ -38,7 +38,7 @@ public class UserService : IUserService
             serviceResult.AddError("InValid Email Or Password");
             return serviceResult;
         }
-        serviceResult.Payload = user.MapApplicationUserToLoggedInUser(_tokenService.GenerateToken(user.Id));
+        serviceResult.Payload = user.MapApplicationUserToLoggedInUser(_tokenService.GenerateToken(user));
         return serviceResult;
     }
 
@@ -71,7 +71,7 @@ public class UserService : IUserService
             DisplayName = signUpUserDto.DisplayName
         };
         await _usersCollection.InsertOneAsync(user.ToBsonDocument());
-        serviceResult.Payload = user.MapApplicationUserToLoggedInUser(_tokenService.GenerateToken(user.Id));
+        serviceResult.Payload = user.MapApplicationUserToLoggedInUser(_tokenService.GenerateToken(user));
 
         return serviceResult;
     }

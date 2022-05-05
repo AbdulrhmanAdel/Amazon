@@ -14,6 +14,7 @@ public class UserMapping
             user.MapIdField(u => u.Id);
             user.MapProperty(u => u.DisplayName).SetElementName(ApplicationUserFields.DisplayName);
             user.MapProperty(u => u.PasswordHash).SetElementName(ApplicationUserFields.PasswordHash);
+            user.MapProperty(u => u.IsAdmin).SetElementName(ApplicationUserFields.IsAdmin);
         });
     }
 }

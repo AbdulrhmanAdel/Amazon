@@ -1,5 +1,7 @@
 ﻿using System.Net.Http.Headers;
-using DefaultNamespace;
+using Core.Identity.Enums;
+using Core.Identity.Services;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -15,12 +17,13 @@ public class CurrentUserContextService : ICurrentUserContext
         var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization];
         if (string.IsNullOrWhiteSpace(authorizationHeader.ToString())) return;
         UserId = Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(claim => claim.Type == "Id").Value);
-        Enum.TryParse<UserLocale>(
-            httpContextAccessor.HttpContext.Request.Headers[HeaderNames.AcceptLanguage].ToString(), out var locale);
-
-        Locale = locale;
     }
 
     public Guid UserId { get; }
-    public UserLocale Locale { get; }
+
+    public UserLocale Locale =>
+        Enum.Parse<UserLocale>(_httpContextAccessor.HttpContext.Request.Headers[HeaderNames.AcceptLanguage].ToString());
+
+    public bool IsAdmin =>
+        bool.Parse(_httpContextAccessor.HttpContext.User.FindFirst(claim => claim.Type == "IsAdmin").Value);
 }

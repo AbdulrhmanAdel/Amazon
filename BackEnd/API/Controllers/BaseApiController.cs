@@ -16,7 +16,10 @@ namespace api.Controllers
         {
             return Ok(new PagedResponse<T>(data, totalCount));
         }
-
+        protected IActionResult ListResult<T>(IEnumerable<T> data)
+        {
+            return Ok(data);
+        }
 
         protected IActionResult InvalidRequest(IEnumerable<string> errors = null)
         {
@@ -28,6 +31,7 @@ namespace api.Controllers
             return BadRequest();
         }
 
+        
         protected IActionResult InvalidRequest(string error)
         {
             if (error == null)

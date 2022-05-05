@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Core.Identity.Services;
-using DefaultNamespace;
 using identity.EntitiesConfiguration;
 using identity.Services;
 using identity.Services.Token;

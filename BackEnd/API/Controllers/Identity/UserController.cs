@@ -1,7 +1,6 @@
 ﻿using core.Identity.Dto;
 using Core.Identity.Services;
 using core.Validators;
-using DefaultNamespace;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

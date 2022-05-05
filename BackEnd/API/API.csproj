@@ -11,11 +11,11 @@
 
   <ItemGroup>
     <ProjectReference Include="../Core/Core.csproj" />
-    <ProjectReference Include="..\core\core.csproj" />
-    <ProjectReference Include="..\identity\identity.csproj" />
+    <ProjectReference Include="../Identity/Identity.csproj" />
+    <ProjectReference Include="../Persistance/Persistance.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Mappers" />
+    <Folder Include="wwwroot" />
   </ItemGroup>
 </Project>

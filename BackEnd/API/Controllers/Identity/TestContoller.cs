@@ -1,4 +1,4 @@
-﻿using DefaultNamespace;
+﻿using Core.Identity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

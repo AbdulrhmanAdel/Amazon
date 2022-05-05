@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using core.Identity.Entities;
 using identity.JWT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,7 @@ public class TokenService : ITokenService
     {
         _configuration = configuration;
     }
-    public string GenerateToken(Guid userId)
+    public string GenerateToken(ApplicationUser user)
     {
         var jwtConfig = _configuration.GetSection("Jwt").Get<JwtConfiguration>();
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key));    
@@ -25,7 +26,8 @@ public class TokenService : ITokenService
             jwtConfig.Issuer,    
             new Claim[]
             {
-                new Claim("Id", userId.ToString())
+                new Claim("Id", user.Id.ToString()),
+                new Claim("IsAdmin", user.IsAdmin.ToString())
             },    
             expires: DateTime.UtcNow.AddDays(jwtConfig.ExpireInDays),    
             signingCredentials: credentials);    

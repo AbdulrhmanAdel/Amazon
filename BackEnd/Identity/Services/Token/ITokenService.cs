@@ -1,6 +1,8 @@
-﻿namespace identity.Services.Token;
+﻿using core.Identity.Entities;
+
+namespace identity.Services.Token;
 
 public interface ITokenService
 {
-    string GenerateToken(Guid userId);
+    string GenerateToken(ApplicationUser user);
 }
