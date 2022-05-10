@@ -1,6 +1,5 @@
-E-Commerce
-is an app build using latest technology 
-its divided into two parts
+In Progress Amazon Clone E-Commerce App
+
 
 BackEnd
     -using .net6.0
